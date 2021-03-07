@@ -4,6 +4,9 @@
 [![Coverage](http://gocover.io/_badge/github.com/iancoleman/strcase?0)](http://gocover.io/github.com/iancoleman/strcase)
 [![Go Report Card](https://goreportcard.com/badge/github.com/iancoleman/strcase)](https://goreportcard.com/report/github.com/iancoleman/strcase)
 
+#### This is the fork of [iancoleman/strcase](https://github.com/iancoleman/strcase) adding support for cyrillic letters in CamelCase. Поддерживает трансляцию в CamelCase, например `Ключ.Значение`. API пакета не менялось, примеры использования можно найти в `camel_test.go`.
+
+
 strcase is a go package for converting string case to various cases (e.g. [snake case](https://en.wikipedia.org/wiki/Snake_case) or [camel case](https://en.wikipedia.org/wiki/CamelCase)) to see the full conversion table below.
 
 ## Example
@@ -41,6 +44,8 @@ for every case in the wild.
 To configure your custom acronym globally you can use the following before running any conversion
 
 ```go
+package foo
+
 import (
     "github.com/iancoleman/strcase"
 )

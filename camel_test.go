@@ -41,6 +41,17 @@ func toCamel(tb testing.TB) {
 		{"odd-fix", "OddFix"},
 		{"numbers2And55with000", "Numbers2And55With000"},
 		{"ID", "Id"},
+		{"айди", "Айди"},
+		{"нечётный-фикс", "НечётныйФикс"},
+		{"Любая например_строка", "ЛюбаяНапримерСтрока"},
+		{"много_много_слов", "МногоМногоСлов"},
+		{" тестовый  кейс ", "ТестовыйКейс"},
+		{"ТестовыйКейс", "ТестовыйКейс"},
+		{"тестовый_кейс", "ТестовыйКейс"},
+		{"тестовый.кейс", "ТестовыйКейс"},
+		{"тест", "Тест"},
+		{"@смешная-собачка", "СмешнаяСобачка"},
+		{"плохо.распарсил[0].джейсон", "ПлохоРаспарсил0Джейсон"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -70,6 +81,11 @@ func toLowerCamel(tb testing.TB) {
 		{"ID", "id"},
 		{"some string", "someString"},
 		{" some string", "someString"},
+		{"любая строка", "любаяСтрока"},
+		{" некая Строка", "некаяСтрока"},
+		{"Идентификатор", "идентификатор"},
+		{"ЛюбойТип любой_строки", "любойТипЛюбойСтроки"},
+		{"ЛюбойТип.любой-строки", "любойТипЛюбойСтроки"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -110,8 +126,21 @@ func TestCustomAcronymsToCamel(t *testing.T) {
 			acronymValue: "PostgreSQL",
 			expected:     "PostgreSQL",
 		},
+		{
+			name:         "Кириллица Custom Acronym",
+			acronymKey:   "Кириллица",
+			acronymValue: "Кириллица",
+			expected:     "Кириллица",
+		},
+		{
+			name:         "Кириллица-крлц Custom Acronym",
+			acronymKey:   "Кириллица",
+			acronymValue: "крлц",
+			expected:     "Крлц",
+		},
 	}
-	for _, test := range tests {
+	for _, tc := range tests {
+		test := tc
 		t.Run(test.name, func(t *testing.T) {
 			ConfigureAcronym(test.acronymKey, test.acronymValue)
 			if result := ToCamel(test.acronymKey); result != test.expected {
@@ -147,7 +176,8 @@ func TestCustomAcronymsToLowerCamel(t *testing.T) {
 			expected:     "postgreSQL",
 		},
 	}
-	for _, test := range tests {
+	for _, tc := range tests {
+		test := tc
 		t.Run(test.name, func(t *testing.T) {
 			ConfigureAcronym(test.acronymKey, test.acronymValue)
 			if result := ToLowerCamel(test.acronymKey); result != test.expected {
