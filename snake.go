@@ -59,14 +59,16 @@ func ToDelimited(s string, delimiter uint8) string {
 	return ToScreamingDelimited(s, delimiter, 0, false)
 }
 
+const extraSpaceForInsertedDelimiters = 2
+
 // ToScreamingDelimited converts a string to SCREAMING.DELIMITED.SNAKE.CASE
 // (in this case `delimiter = '.'; screaming = true`)
 // or delimited.snake.case
 // (in this case `delimiter = '.'; screaming = false`)
-func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming bool) string {
+func ToScreamingDelimited(s string, delimiter, ignore uint8, screaming bool) string {
 	s = strings.TrimSpace(s)
 	n := strings.Builder{}
-	n.Grow(len(s) + 2) // nominal 2 bytes of extra space for inserted delimiters
+	n.Grow(len(s) + extraSpaceForInsertedDelimiters) // nominal 2 bytes of extra space for inserted delimiters
 	for i, v := range []byte(s) {
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
@@ -102,7 +104,7 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 			}
 		}
 
-		if (v == ' ' || v == '_' || v == '-') && uint8(v) != ignore {
+		if (v == ' ' || v == '_' || v == '-') && v != ignore {
 			// replace space/underscore/hyphen with delimiter
 			n.WriteByte(delimiter)
 		} else {

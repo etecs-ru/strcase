@@ -27,6 +27,7 @@ package strcase
 
 import (
 	"strings"
+	"unicode"
 )
 
 // Converts a string to CamelCase
@@ -39,34 +40,46 @@ func toCamelInitCase(s string, initCase bool) string {
 		s = a
 	}
 
-	n := strings.Builder{}
-	n.Grow(len(s))
+	var sb strings.Builder
+	sb.Grow(len(s))
 	capNext := initCase
-	for i, v := range []byte(s) {
-		vIsCap := v >= 'A' && v <= 'Z'
-		vIsLow := v >= 'a' && v <= 'z'
-		if capNext {
-			if vIsLow {
-				v += 'A'
-				v -= 'a'
+	for i, v := range s {
+		if !(unicode.Is(unicode.Cyrillic, v) || unicode.Is(unicode.Number, v) || unicode.Is(unicode.Latin, v)) {
+			if i > 0 {
+				capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 			}
-		} else if i == 0 {
-			if vIsCap {
-				v += 'a'
-				v -= 'A'
-			}
+			continue
 		}
-		if vIsCap || vIsLow {
-			n.WriteByte(v)
-			capNext = false
-		} else if vIsNum := v >= '0' && v <= '9'; vIsNum {
-			n.WriteByte(v)
+		vIsLow := v >= 'a' && v <= 'z' || (v >= 'а' && v <= 'я')
+		switch {
+		case capNext:
+			if vIsLow {
+				sb.WriteRune(unicode.ToUpper(v))
+			} else {
+				sb.WriteRune(v)
+			}
+			capNext = v >= '0' && v <= '9'
+		case i == 0:
+			if v >= '0' && v <= '9' {
+				sb.WriteRune(v)
+				capNext = true
+			} else {
+				if capNext {
+					sb.WriteRune(unicode.ToUpper(v))
+				} else {
+					sb.WriteRune(unicode.ToLower(v))
+				}
+				capNext = false
+			}
+		case v >= '0' && v <= '9':
+			sb.WriteRune(v)
 			capNext = true
-		} else {
+		default:
+			sb.WriteRune(v)
 			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 		}
 	}
-	return n.String()
+	return sb.String()
 }
 
 // ToCamel converts a string to CamelCase
