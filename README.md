@@ -1,8 +1,8 @@
 # strcase
-[![Godoc Reference](https://godoc.org/github.com/iancoleman/strcase?status.svg)](http://godoc.org/github.com/iancoleman/strcase)
-[![Build Status](https://travis-ci.com/iancoleman/strcase.svg)](https://travis-ci.com/iancoleman/strcase)
-[![Coverage](http://gocover.io/_badge/github.com/iancoleman/strcase?0)](http://gocover.io/github.com/iancoleman/strcase)
-[![Go Report Card](https://goreportcard.com/badge/github.com/iancoleman/strcase)](https://goreportcard.com/report/github.com/iancoleman/strcase)
+[![Go Reference](https://pkg.go.dev/badge/github.com/etecs-ru/strcase.svg)](https://pkg.go.dev/github.com/etecs-ru/strcase)
+[![golangci-lint](https://github.com/etecs-ru/strcase/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/etecs-ru/strcase/actions/workflows/golangci-lint.yml)
+[![Coverage](https://codecov.io/gh/etecs-ru/strcase/branch/master/graph/badge.svg?token=INN6PQXII4)](https://codecov.io/gh/etecs-ru/strcase)
+[![Go Report Card](https://goreportcard.com/badge/github.com/etecs-ru/strcase)](https://goreportcard.com/report/github.com/etecs-ru/strcase)
 
 #### This is the fork of [iancoleman/strcase](https://github.com/iancoleman/strcase) adding support for cyrillic letters in CamelCase. Поддерживает трансляцию в CamelCase, например `Ключ.Значение`. API пакета не менялось, примеры использования можно найти в `camel_test.go`.
 
