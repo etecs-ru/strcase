@@ -43,9 +43,10 @@ func toCamelInitCase(s string, initCase bool) string {
 	var sb strings.Builder
 	sb.Grow(len(s))
 	capNext := initCase
+	isStart := true
 	for i, v := range s {
 		if !(unicode.Is(unicode.Cyrillic, v) || unicode.Is(unicode.Number, v) || unicode.Is(unicode.Latin, v)) {
-			if i > 0 {
+			if !isStart && !capNext {
 				capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 			}
 			continue
@@ -78,6 +79,7 @@ func toCamelInitCase(s string, initCase bool) string {
 			sb.WriteRune(v)
 			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 		}
+		isStart = false
 	}
 	return sb.String()
 }
